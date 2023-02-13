@@ -1,0 +1,128 @@
+--Game Gui Start
+if game.PlaceId == 6772668924 then
+      local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+      local Window = OrionLib:MakeWindow({Name = "[x2]🎄The Bees World🎄 V1", HidePremium = false, IntroEnable = false, IntroText = "Made by Sculp", SaveConfig = true, ConfigFolder = "OrionTest"})
+      
+      --Values
+      _G.AutoConvert = true
+      getgenv().TPPlace = "string"
+      
+      --Functions
+      
+      
+      
+         function AutoConvert()
+            while _G.AutoConvert == true do
+               game:GetService("ReplicatedStorage").Events.ConvertPollen:FireServer()
+               wait(.01)
+         end
+         end
+      
+      --Tabs
+      --Auto Farm
+      local FarmTab = Window:MakeTab({
+            Name = "Auto Farm",
+            Icon = "rbxassetid://4483345998",
+            PremiumOnly = false
+      })
+      --Tp
+      local TpTab = Window:MakeTab({
+            Name = "Place - Tp🌌",
+            Icon = "rbxassetid://4483345998",
+            PremiumOnly = false
+      })
+      --Tp
+      local MiscTab = Window:MakeTab({
+            Name = "Misc",
+            Icon = "rbxassetid://4483345998",
+            PremiumOnly = false
+      })
+      
+      --Toggles
+      
+      FarmTab:AddToggle({
+            Name = "Auto Convert",
+            Default = false,
+            Callback = function(Value)
+            _G.AutoConvert = Value
+            AutoConvert()
+            end    
+      })
+
+      --Boutons
+      MiscTab:AddButton({
+            Name = "Another gui",
+            Callback = function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/ScuIp/The-Bees-Wolrd-Script/main/Misc%20Gui", true))()
+              end    
+      })
+      
+      
+      
+      --Slector of field
+      
+      TpTab:AddDropdown({
+            Name = "Select A field",
+            Default = "1",
+            Options = {"Cherry Field", "Orange Field", "Bamboo Field", "Cactus Field", "Pumpking Field"},
+            Callback = function(Value)
+            getgenv().TPPlace = Value
+            end    
+      })
+      
+      
+      --Alls Fields
+      
+      TpTab:AddButton({
+            Name = "Teleport",
+            Callback = function()
+            if getgenv().TPPlace == "Cherry Field" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(798.128296, 129.876389, 198.295364, -0.0590508543, 7.76787346e-08, -0.998254955, 2.02226467e-08, 1, 7.66182708e-08, 0.998254955, -1.5662982e-08, -0.0590508543)
+            elseif getgenv().TPPlace == "Orange Field" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(675.34491, 113.603851, 545.582458, 0.0159778949, 5.89221933e-08, 0.999872327, 3.2553662e-09, 1, -5.89817368e-08, -0.999872327, 4.19735446e-09, 0.0159778949)
+            elseif getgenv().TPPlace == "Bamboo Field" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(782.151733, 113.603851, 517.11322, 0.999979913, 4.12335694e-08, -0.00634001568, -4.08165484e-08, 1, 6.59054109e-08, 0.00634001568, -6.56453025e-08, 0.999979913)
+            elseif getgenv().TPPlace == "Cactus Field" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(767.46759, 92.0445938, 460.899323, -0.0102350432, 9.03508877e-08, -0.999947608, 8.05309099e-08, 1, 8.95313335e-08, 0.999947608, -7.96103379e-08, -0.0102350432)
+            elseif getgenv().TPPlace == "Pumpking Field" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(738.255432, 92.0445938, 293.309906, -0.999528646, -8.45333048e-09, 0.0306989551, -6.95330815e-09, 1, 4.8969067e-08, -0.0306989551, 4.87325273e-08, -0.999528646)
+
+            end
+         end
+      })
+      
+      
+      --Hive Selector
+      
+      TpTab:AddDropdown({
+            Name = "Select A Hive",
+            Default = ")",
+            Options = {"1", "2", "3", "4", "5"},
+            Callback = function(Value)
+            getgenv().TPPlace = Value
+            end    
+      })
+      
+      --Alls Hives
+      
+      TpTab:AddButton({
+            Name = "Teleport",
+            Callback = function()
+            if getgenv().TPPlace == "1" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(483.579193, 54.4078941, 336.718842, 0.967244387, 3.86951484e-08, -0.253846943, -3.85496683e-08, 1, 5.54743229e-09, 0.253846943, 4.41999237e-09, 0.967244387)
+            elseif getgenv().TPPlace == "2" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(473.024017, 54.4080849, 326.994293, 0.615108311, -2.98358636e-08, -0.788442612, -3.95876387e-10, 1, -3.81503611e-08, 0.788442612, 2.37787301e-08, 0.615108311)
+            elseif getgenv().TPPlace == "3" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(466.376343, 54.4080467, 311.8479, -0.202370718, -8.23519812e-08, -0.979308963, 7.94240229e-09, 1, -8.57331912e-08, 0.979308963, -2.51279548e-08, -0.202370718)
+            elseif getgenv().TPPlace == "4" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(472.462311, 54.4080238, 295.895294, -0.639877677, -2.46937759e-08, -0.768476784, -3.36753447e-09, 1, -2.93294047e-08, 0.768476784, -1.61793583e-08, -0.639877677)
+            elseif getgenv().TPPlace == "5" then
+            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(485.869476, 54.4080467, 288.123993, -0.9999035, 3.78746172e-08, -0.0138903707, 3.65184043e-08, 1, 9.78907337e-08, 0.0138903707, 9.73740342e-08, -0.9999035)
+      
+            end
+         end
+      })
+      
+      
+      end
+      OrionLib:Init()
