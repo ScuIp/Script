@@ -1,0 +1,26 @@
+--Game Gui
+if game.PlaceId == 1224212277 then 
+    local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+    local Window = OrionLib:MakeWindow({Name = "[🔥2X Mad City: Chapter 2", HidePremium = false, IntroEnable = false,IntroText = "Made by Sculp", SaveConfig = true, ConfigFolder = "OrionTest"})
+
+
+
+--Misc
+local MiscTab = Window:MakeTab({
+    Name = "Misc",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+--Boutons
+MiscTab:AddButton({
+    Name = "Another gui",
+    Callback = function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/ScuIp/The-Bees-Wolrd-Script/main/Misc%20Gui", true))()
+      end    
+})
+
+
+
+end
+OrionLib:Init()
