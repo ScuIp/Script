@@ -1,0 +1,116 @@
+--Game Gui
+if game.PlaceId == 7905476552 then 
+    local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+    local Window = OrionLib:MakeWindow({Name = "[❄ WINTER] Beekeepers!", HidePremium = false, IntroEnable = false,IntroText = "Made by Scropt", SaveConfig = true, ConfigFolder = "OrionTest"})
+
+
+--FarmTab
+local FarmTab = Window:MakeTab({
+      Name = "Auto Farme⚙️",
+      Icon = "rbxassetid://4483345998",
+      PremiumOnly = false
+})
+--Auto Convert 
+_G.AutoConvert = true
+--Fonction
+   function AutoConvert()
+      while _G.AutoConvert == true do
+        game:GetService("ReplicatedStorage").Shared.Network.SellFood:FireServer()
+         wait(.01)
+   end
+   end
+--Toggle
+FarmTab:AddToggle({
+      Name = "Auto Convert",
+      Default = false,
+      Callback = function(Value)
+      _G.AutoConvert = Value
+      AutoConvert()
+      end    
+})
+
+
+--Teleport Tab
+local TpTab = Window:MakeTab({
+      Name = "Place - Tp🌌",
+      Icon = "rbxassetid://4483345998",
+      PremiumOnly = false
+})
+--Teleport
+getgenv().TPPlace = "string"
+--Liste Field Tp
+TpTab:AddDropdown({
+      Name = "Select A field",
+      Default = "1",
+      Options = {"Cherry Field", "Orange Field", "Bamboo Field", "Cactus Field", "Pumpking Field"},
+      Callback = function(Value)
+      getgenv().TPPlace = Value
+      end    
+})
+--Choose Field TP
+TpTab:AddButton({
+      Name = "Teleport",
+      Callback = function()
+      if getgenv().TPPlace == "Cherry Field" then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new()
+      elseif getgenv().TPPlace == "Orange Field" then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new()
+      elseif getgenv().TPPlace == "Bamboo Field" then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new()
+      elseif getgenv().TPPlace == "Cactus Field" then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new()
+      elseif getgenv().TPPlace == "Pumpking Field" then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new()
+
+      end
+   end
+})
+--Liste hive
+TpTab:AddDropdown({
+      Name = "Select A Hive",
+      Default = ")",
+      Options = {"1", "2", "3", "4", "5", "6"},
+      Callback = function(Value)
+      getgenv().TPPlace = Value
+      end    
+})
+--Choose hive
+TpTab:AddButton({
+      Name = "Teleport",
+      Callback = function()
+      if getgenv().TPPlace == "1" then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(755.817444, 45.0297241, 162.491241, 0.989025712, -1.45443417e-08, 0.147743329, 1.91868832e-08, 1, -2.99978353e-08, -0.147743329, 3.25033653e-08, 0.989025712)
+      elseif getgenv().TPPlace == "2" then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(724.75946, 45.0297165, 172.019821, 0.98529017, -4.91584951e-09, 0.170889556, 1.48696933e-09, 1, 2.01928838e-08, -0.170889556, -1.96417425e-08, 0.98529017)
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(703.01416, 45.0297203, 173.209793, 0.994095266, -3.86705112e-09, -0.108510904, 2.98646485e-09, 1, -8.27769675e-09, 0.108510904, 7.90475507e-09, 0.994095266)
+      elseif getgenv().TPPlace == "4" then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(649.606567, 45.0297241, 151.472473, 0.301073879, -7.13913977e-08, -0.953600824, 9.79099184e-08, 1, -4.39526495e-08, 0.953600824, -8.01339866e-08, 0.301073879)
+      elseif getgenv().TPPlace == "5" then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(641.670776, 45.0297279, 126.052452, 0.15979436, 2.45889638e-08, -0.987150311, 5.54972814e-08, 1, 3.38926256e-08, 0.987150311, -6.02000085e-08, 0.15979436)
+      elseif getgenv().TPPlace == "6" then
+      game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(644.227539, 45.0297165, 99.6764755, -0.0296110362, 1.00225165e-07, -0.999561489, 3.58942422e-08, 1, 9.92058062e-08, 0.999561489, -3.2940914e-08, -0.0296110362)
+  
+
+
+      end
+   end
+})
+
+
+--Misc
+local MiscTab = Window:MakeTab({
+      Name = "Misc",
+      Icon = "rbxassetid://4483345998",
+      PremiumOnly = false
+})
+
+--Boutons
+MiscTab:AddButton({
+      Name = "Another gui",
+      Callback = function()
+      loadstring(game:HttpGet("https://raw.githubusercontent.com/ScuIp/The-Bees-Wolrd-Script/main/Misc%20Gui", true))()
+        end    
+})
+
+end
+OrionLib:Init()
