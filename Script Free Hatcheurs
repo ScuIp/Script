@@ -1,6 +1,6 @@
 --Game Gui Start
 if game.PlaceId == 11162791099 then
-    local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+    local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source%27)))()
     local Window = OrionLib:MakeWindow({Name = "[⚔️MÉDIAS] Hatchers gratuits", HidePremium = false, IntroEnable = false, IntroText = "Made by Sculp", SaveConfig = true, ConfigFolder = "OrionTest"})
     --Values
 _G.autoRebirth = true
@@ -8,9 +8,9 @@ _G.autoRebirth = true
 
 --Function
 
-Function autoRebirth()
+function autoRebirth()
 while _G.autoRebirth == true do
-    game:GetService("ReplicatedStorage").Marchy.PetRemotes.GetGems:InvokeServer(15)
+    game:GetService("ReplicatedStorage").Events.Rebirth:FireServer(1)
     wait(.000000000000000000000000000000000000000000000000000001)
  end
 
@@ -28,9 +28,11 @@ while _G.autoRebirth == true do
     FrameTab:AddToggle({
         Name = "Auto Rebirth",
         Default = false,
-        Callback = function(Value),
-        _G.autoRebirth = Value,
+        Callback = function(Value)
+        _G.autoRebirth = Value
         autoRebirth()
+        end
     })
 
+end
     OrionLib:Init()
