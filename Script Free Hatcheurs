@@ -10,7 +10,7 @@ _G.autoRebirth = true
 
 Function autoRebirth()
 while _G.autoRebirth == true do
-    game:GetService("ReplicatedStorage").Marchy.PetRemotes.GetGems:InvokeServer(1)
+    game:GetService("ReplicatedStorage").Marchy.PetRemotes.GetGems:InvokeServer(15)
     wait(.000000000000000000000000000000000000000000000000000001)
  end
 
