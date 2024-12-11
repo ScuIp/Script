@@ -2,7 +2,7 @@
 	Mad-Lads v7!
 	MODIFIED
 	Press F8 to toggle the GUI!
-]]
+]]--
 
 --=Important=--
 _G.Height = true
