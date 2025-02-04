@@ -1,1 +1,166 @@
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+
+local Window = Rayfield:CreateWindow({
+   Name = "The Bees Kingdoms LavioMenu",
+   LoadingTitle = "Powered",
+   LoadingSubtitle = "by Rayfield",
+   Theme = "Default",
+
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,
+
+   ConfigurationSaving = {
+      Enabled = false,
+      FolderName = nil,
+      FileName = "TBK"
+   },
+
+})
+
+--# Services --
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local TweenService = game:GetService("TweenService")
+
+
+--# Logic --
+
+-- G Veirables
+_G.SelectedField = "Beetroot"
+
+-- Commune Variables
+local LocalPlayer: Player = Players.LocalPlayer
+local HumanoidRootPart: Part = LocalPlayer.Character.HumanoidRootPart
+local Camera: Camera = workspace.CurrentCamera
+
+
+-- \\ Functions // --
+
+-- # GetHive # --
+local function GetHive()
+	for i, Hive in workspace.Map.Hives:GetDescendants() do
+    	if Hive:IsA("StringValue") then
+        	if Hive.Value == LocalPlayer.Name then
+				return Hive.Parent.Pad.Main
+			end
+        end
+    end
+end
+
+-- # GetHive # --
+local function GetField(NameField)
+	return workspace.Map.Fields[NameField]
+end
+
+
+-- \\ Teleports Tab // --
+local TeleportsTab = Window:CreateTab("Teleports Tab", "rewind")
+
+-- To Hive
+local TeleportToHive = TeleportsTab:CreateButton({
+   Name = "Teleport To Hive",
+   Callback = function()
+	local PartHive: Part = GetHive()
+		HumanoidRootPart.CFrame = PartHive.CFrame + Vector3.new(0, 6, 0)
+   end,
+})
+
+-- \\ Devider // --
+local Divider = TeleportsTab:CreateDivider()
+
+--To Fields
+local ToSunflower = TeleportsTab:CreateButton({
+   Name = "Sunflower",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Sunflower").CFrame
+   end,
+})
+
+local ToDaisy = TeleportsTab:CreateButton({
+   Name = "Daisy",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Daisy").CFrame
+   end,
+})
+
+local ToMushroom = TeleportsTab:CreateButton({
+   Name = "Mushroom",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Mushroom").CFrame
+   end,
+})
+
+local ToBlueFlowers = TeleportsTab:CreateButton({
+   Name = "Blue Flowers",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Blue Flowers").CFrame
+   end,
+})
+
+local ToDandelion = TeleportsTab:CreateButton({
+   Name = "Dandelion",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Dandelion").CFrame
+   end,
+})
+
+local ToStrawberry = TeleportsTab:CreateButton({
+   Name = "Strawberry",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Strawberry").CFrame
+   end,
+})
+
+local ToLilly = TeleportsTab:CreateButton({
+   Name = "Lilly",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Lilly").CFrame
+   end,
+})
+
+local ToBeetroot = TeleportsTab:CreateButton({
+   Name = "Beetroot",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Beetroot").CFrame
+   end,
+})
+
+local ToViolet = TeleportsTab:CreateButton({
+   Name = "Violet",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Violet").CFrame
+   end,
+})
+
+local ToCactus = TeleportsTab:CreateButton({
+   Name = "Cactus",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Cactus").CFrame
+   end,
+})
+
+local ToClover = TeleportsTab:CreateButton({
+   Name = "Clover",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Clover").CFrame
+   end,
+})
+
+local ToCherry = TeleportsTab:CreateButton({
+   Name = "Cherry",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Cherry").CFrame
+   end,
+})
+
+local ToCrystals = TeleportsTab:CreateButton({
+   Name = "Crystals",
+   Callback = function()
+      HumanoidRootPart.CFrame = GetField("Crystals").CFrame
+   end,
+})
+
+-- \\ Teleports Tab // --
 
