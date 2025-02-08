@@ -34,6 +34,7 @@ _G.SelectedFieldFarm = workspace.Map.Fields.Sunflower
 _G.AutoFarming = false
 _G.FarmingTokens = false
 
+_G.PlayerWalkSpeed = 25
 _G.SelectedTeleportField = workspace.Map.Fields.Sunflower
 
 -- Commune Variables
@@ -58,6 +59,13 @@ end
 local function GetField(NameField)
 	return workspace.Map.Fields[NameField]
 end
+-- # TeleportPlayer # --
+local function TeleportPlayer(Instance: Instance)
+   local TweenInfoForTeleport = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
+   local TweenAnimationForTeleport = TweenService:Create(HumanoidRootPart.CFrame, TweenInfoForTeleport, {CFrame = Instance.CFrame})
+   return TweenAnimationForTeleport
+end
+
 -- Comune Function
 
 -- \\ Farm Tab // --
@@ -298,7 +306,11 @@ local TeleportButton = TeleportsTab:CreateButton({
 -- \\ Player Tab // --
 
 -- \\ Functions // --
-
+Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
+   if HumanoidRootPart.Parent.Humanoid.WalkSpeed ~= _G.PlayerWalkSpeed then
+      HumanoidRootPart.Parent.Humanoid.WalkSpeed = _G.PlayerWalkSpeed
+   end
+end)
 -- \\ Functions // --
 
 local PlayerTab = Window:CreateTab("Player Tab", "rewind")
@@ -317,8 +329,10 @@ local WalkspeedSlider = PlayerTab:CreateSlider({
          Duration = 2.5,
          Image = "rewind",
       })
-   HumanoidRootPart.Parent.Humanoid.WalkSpeed = Value
+      _G.PlayerWalkSpeed = Value
+      HumanoidRootPart.Parent.Humanoid.WalkSpeed = Value
    end,
 })
+
 
 -- \\ Player Tab // --
