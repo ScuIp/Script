@@ -42,7 +42,6 @@ local LocalPlayer: Player = Players.LocalPlayer
 local HumanoidRootPart: Part = LocalPlayer.Character.HumanoidRootPart
 local Humanoid: Humanoid = LocalPlayer.Character.Humanoid
 local Camera: Camera = workspace.CurrentCamera
--- Comune Variables
 -- Comune Function
 
 -- # GetHive # --
@@ -59,7 +58,18 @@ end
 local function GetField(NameField)
 	return workspace.Map.Fields[NameField]
 end
--- # TeleportPlayer # --
+-- # GetBackpackPercentage # --
+local function GetBackpackPercentage()
+   local PollenBar = LocalPlayer.PlayerGui.UI.Meters.Pollen.Bar
+
+   local currentScale = PollenBar.Size.X.Scale
+   local maxScale = 1
+
+   local percentage = currentScale * 100
+   return percentage
+end
+
+-- # TeleportPlayer # -- In Beta
 local function TeleportPlayer(Instance: Instance)
    local TweenInfoForTeleport = TweenInfo.new(0.5, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
    local TweenAnimationForTeleport = TweenService:Create(HumanoidRootPart.CFrame, TweenInfoForTeleport, {CFrame = Instance.CFrame})
@@ -74,16 +84,29 @@ end
 
 -- # Collect Tokens # --
 local function CollectTokens()
-   while _G.FarmingTokens and _G.AutoFarming and LocalPlayer.PlayerGui.UI.Meters.Pollen.Bar.Size.X.Scale < 1 do
+   print("Test")
+   while _G.FarmingTokens and _G.AutoFarming and GetBackpackPercentage() < 100 do -- Sac et < de 100
       for _, Token in pairs(workspace.Map.Tokens:GetChildren()) do
-         if Token:IsA("Part") and Token:GetAttribute("Name") ~= "Ticket" and Token:GetAttribute("Name") ~= "Royal Jelly" then
-            if (Token.Position - HumanoidRootPart.Position).magnitude <= 60 then
-               HumanoidRootPart.CFrame = CFrame.new(Token.Position.x, HumanoidRootPart.Position.y, Token.Position.z)
-               task.wait(0.1)
-            end
+         if Token:IsA("Part") and Token:GetAttribute("Name") ~= "Ticket" and Token:GetAttribute("Name") ~= "Royal Jelly" and (Token.Position - HumanoidRootPart.Position).magnitude <= 60 then
+            HumanoidRootPart.CFrame = CFrame.new(Token.Position.x, HumanoidRootPart.Position.y, Token.Position.z)
+            task.wait(0.25)
          end
       end
-      task.wait(0.5)
+
+      for i, Present in workspace.Visual:GetChildren() do
+            if Present:IsA("Model") and Present.Name == "Gift Box" and (Present.Root.Position - HumanoidRootPart.Position).magnitude <= 60 then
+            HumanoidRootPart.CFrame = CFrame.new(Present.Root.Position.x, HumanoidRootPart.Position.y, Present.Root.Position.z)
+            task.wait(0.25)
+         end
+      end
+
+      for i, Ice in workspace.Visual:GetChildren() do
+         if Ice:IsA("Part") and Ice.Name == "Warning Circle" and (Ice.Position - HumanoidRootPart.Position).magnitude <= 60 and Ice.Transparency <= 0.2 then
+            HumanoidRootPart.CFrame = CFrame.new(Ice.Position.x, HumanoidRootPart.Position.y, Ice.Position.z)
+            task.wait(1.2)
+         end
+      end
+      task.wait(0.25)
    end
 end
 
@@ -95,9 +118,10 @@ local function AutoFarm()
 
       while _G.AutoFarming do
          task.wait(2.3)
-
+         print(GetBackpackPercentage())
          -- Si la barre de pollen est pleine, aller à la ruche
-         if LocalPlayer.PlayerGui.UI.Meters.Pollen.Bar.Size == UDim2.new(1, 0, 1, 0) then
+         if GetBackpackPercentage() == 100 then
+            print("Plein")
             Rayfield:Notify({
                Title = "Information",
                Content = "Teleported player to the hive!",
@@ -121,7 +145,7 @@ local function AutoFarm()
             game:GetService("ReplicatedStorage").Shared.Network.Converting:FireServer()
 
             -- Attente de la conversion du pollen
-            while LocalPlayer.PlayerGui.UI.Meters.Pollen.Bar.Size.X.Scale > 0 do
+            while GetBackpackPercentage() > 0 do
                Rayfield:Notify({
                   Title = "Information",
                   Content = "Converting!",
