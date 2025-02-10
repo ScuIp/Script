@@ -179,7 +179,7 @@ local function AutoFarm()
             game:GetService("ReplicatedStorage").Shared.Network.Converting:FireServer()
 
             -- Attente de la conversion du pollen
-            while GetBackpackPercentage() > 0 do
+            while GetBackpackPercentage() > 0 and _G.AutoFarming and not InField do
                Rayfield:Notify({
                   Title = "Information",
                   Content = "Converting!",
