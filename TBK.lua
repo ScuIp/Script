@@ -5,15 +5,15 @@ local Window = Rayfield:CreateWindow({
    Name = "The Bees Kingdoms LavioMenu",
    LoadingTitle = "Powered",
    LoadingSubtitle = "by Rayfield",
-   Theme = "Default",
+   Theme = "DarkBlue",
 
    DisableRayfieldPrompts = false,
    DisableBuildWarnings = false,
 
    ConfigurationSaving = {
-      Enabled = false,
+      Enabled = true,
       FolderName = nil,
-      FileName = "TBK"
+      FileName = "TheBeesKingdomsLavioMenu"
    },
 
 })
@@ -32,7 +32,16 @@ _G.AutoDiging = false
 
 _G.SelectedFieldFarm = workspace.Map.Fields.Sunflower
 _G.AutoFarming = false
-_G.FarmingTokens = false
+_G.FarmingAbilitys = false
+
+_G.ConvertPollenAt = 100
+
+_G.FarmCarts = false
+_G.CollectTokens = false
+_G.CollectPresents = false
+_G.FarmMarks = false
+_G.FarmFires = false
+_G.FarmIces = false
 
 _G.PlayerWalkSpeed = 25
 _G.SelectedTeleportField = workspace.Map.Fields.Sunflower
@@ -82,34 +91,61 @@ end
 
 -- \\ Functions // --
 
--- # Collect Tokens # --
-local function CollectTokens()
-   print("Test")
-   while _G.FarmingTokens and _G.AutoFarming and GetBackpackPercentage() < 100 do -- Sac et < de 100
+-- # CollectFarmAbilitys # --
+local function CollectFarmAbilitys()
+   while _G.FarmingAbilitys and _G.AutoFarming and GetBackpackPercentage() < _G.ConvertPollenAt do -- Sac et < de Convert at
+
+      --FarmCarts
+      for i, Cart in workspace.Visual:GetChildren() do -- Convert at - 20% for better thing
+         if Cart:IsA("Model") and Cart.Name == "Cart" and _G.FarmCarts and GetBackpackPercentage() >= _G.ConvertPollenAt - 20 and (Cart.MeshPart.Position - HumanoidRootPart.Position).magnitude <= 60 then
+            HumanoidRootPart.CFrame = CFrame.new(Cart.MeshPart.Position.x, HumanoidRootPart.Position.y, Cart.MeshPart.Position.z)
+            task.wait(1.2)
+         end
+      end
+
+      --CollectTokens
       for _, Token in pairs(workspace.Map.Tokens:GetChildren()) do
-         if Token:IsA("Part") and Token:GetAttribute("Name") ~= "Ticket" and Token:GetAttribute("Name") ~= "Royal Jelly" and (Token.Position - HumanoidRootPart.Position).magnitude <= 60 then
+         if Token:IsA("Part") and Token:GetAttribute("Name") ~= "Ticket" and Token:GetAttribute("Name") ~= "Royal Jelly" and _G.CollectTokens and (Token.Position - HumanoidRootPart.Position).magnitude <= 60 then
             HumanoidRootPart.CFrame = CFrame.new(Token.Position.x, HumanoidRootPart.Position.y, Token.Position.z)
             task.wait(0.25)
          end
       end
 
+      --CollectPresents
       for i, Present in workspace.Visual:GetChildren() do
-            if Present:IsA("Model") and Present.Name == "Gift Box" and (Present.Root.Position - HumanoidRootPart.Position).magnitude <= 60 then
+            if Present:IsA("Model") and Present.Name == "Gift Box" and _G.CollectPresents and (Present.Root.Position - HumanoidRootPart.Position).magnitude <= 60 then
             HumanoidRootPart.CFrame = CFrame.new(Present.Root.Position.x, HumanoidRootPart.Position.y, Present.Root.Position.z)
             task.wait(0.25)
          end
       end
+      
+      --FarmMarks
+      for i, Mark in workspace.Marks.Visual:GetChildren() do
+         if Mark:IsA("Model") and Mark.Name:find("ID:") and _G.FarmMarks and (Mark.MeshPart.Position - HumanoidRootPart.Position).magnitude <= 60 then
+            HumanoidRootPart.CFrame = CFrame.new(Mark.MeshPart.Position.x, HumanoidRootPart.Position.y, Mark.MeshPart.Position.z)
+            task.wait(0.25)
+         end
+      end
 
+      --FarmFires
+      for i, Fire in workspace.Abilities:GetChildren() do
+         if Fire:IsA("Part") and Fire.Name == "Fire" and _G.FarmFires and (Fire.Position - HumanoidRootPart.Position).magnitude <= 60 then
+            HumanoidRootPart.CFrame = CFrame.new(Fire.Position.x, HumanoidRootPart.Position.y, Fire.Position.z)
+            task.wait(1.2)
+         end
+      end
+
+      --FarmIces
       for i, Ice in workspace.Visual:GetChildren() do
-         if Ice:IsA("Part") and Ice.Name == "Warning Circle" and (Ice.Position - HumanoidRootPart.Position).magnitude <= 60 and Ice.Transparency <= 0.2 then
+         if Ice:IsA("Part") and Ice.Name == "Warning Circle" and _G.FarmIces and (Ice.Position - HumanoidRootPart.Position).magnitude <= 60 and Ice.Transparency <= 0.2 then
             HumanoidRootPart.CFrame = CFrame.new(Ice.Position.x, HumanoidRootPart.Position.y, Ice.Position.z)
             task.wait(1.2)
          end
       end
-      task.wait(0.25)
+
+      task.wait(0.075)
    end
 end
-
 -- # AutoFarm # --
 local function AutoFarm()
    task.spawn(function()
@@ -118,17 +154,15 @@ local function AutoFarm()
 
       while _G.AutoFarming do
          task.wait(2.3)
-         print(GetBackpackPercentage())
          -- Si la barre de pollen est pleine, aller à la ruche
-         if GetBackpackPercentage() == 100 then
-            print("Plein")
+         if GetBackpackPercentage() >= _G.ConvertPollenAt then
             Rayfield:Notify({
                Title = "Information",
                Content = "Teleported player to the hive!",
                Duration = 2.5,
                Image = "rewind",
             })
-            _G.FarmingTokens = false 
+            _G.FarmingAbilitys = false 
             local PartHive = GetHive()
 
                -- Téléportation à la ruche
@@ -174,8 +208,8 @@ local function AutoFarm()
             Duration = 2.5,
             Image = "rewind",
          })
-         _G.FarmingTokens = true
-         CollectTokens()
+         _G.FarmingAbilitys = true
+         CollectFarmAbilitys()
          task.wait(3)
        end
    end)
@@ -190,7 +224,7 @@ local AutoDigLabel = FarmTab:CreateLabel("Auto Dig Section:")
 local AutoDigToggle = FarmTab:CreateToggle({
    Name = "Auto Dig",
    CurrentValue = false,
-   Flag = "AutoDig",
+   Flag = "AutoDigToggle",
    Callback = function(Value)
        Rayfield:Notify({
          Title = "Information",
@@ -202,7 +236,7 @@ local AutoDigToggle = FarmTab:CreateToggle({
        if _G.AutoDiging then
            task.spawn(function()
                while _G.AutoDiging do
-                   task.wait(0.15)
+                   task.wait(0.05)
                    game:GetService("ReplicatedStorage").Shared.Network.UseCollector:FireServer()
                end
            end)
@@ -211,13 +245,12 @@ local AutoDigToggle = FarmTab:CreateToggle({
 })
 
 local Divider = FarmTab:CreateDivider()
-local FarmaLabel = FarmTab:CreateLabel("Auto Farm Section:")
-
+local AutFarmLabel = FarmTab:CreateLabel("Auto Farm Section:")
 
 local AutoFarmToggle = FarmTab:CreateToggle({
    Name = "Auto Farm",
    CurrentValue = false,
-   Flag = "AutoFarm",
+   Flag = "AutoFarmToggle",
    Callback = function(Value)
       Rayfield:Notify({
         Title = "Information",
@@ -232,7 +265,6 @@ local AutoFarmToggle = FarmTab:CreateToggle({
       end
    end,
 })
-
 
 local SelectedFieldFarmDropDown = FarmTab:CreateDropdown({
    Name = "Select Field",
@@ -260,6 +292,118 @@ local SelectedFieldFarmDropDown = FarmTab:CreateDropdown({
    end,
 })
 
+local ConvertPollenSlider = FarmTab:CreateSlider({
+   Name = "Convert Pollen At:",
+   Range = {25, 100},
+   Increment = 1,
+   Suffix = "%",
+   CurrentValue = 100,
+   Flag = "ConvertPollenSlider",
+   Callback = function(Value)
+      Rayfield:Notify({
+         Title = "Information",
+         Content = "player set convert pollen at to: ".. tostring(Value) .."%!",
+         Duration = 2.5,
+         Image = "rewind",
+      })
+      _G.ConvertPollenAt = Value
+   end,
+})
+
+-- Abilitys Collect Farm Section
+local Divider = FarmTab:CreateDivider()
+local AbilitysCollectFarmLabel = FarmTab:CreateLabel("Abilitys Collect Farm Section:")
+
+local FarmCartsToggle = FarmTab:CreateToggle({
+   Name = "Farm Carts",
+   CurrentValue = false,
+   Flag = "FarmCartsToggle",
+   Callback = function(Value)
+      Rayfield:Notify({
+         Title = "Information",
+         Content = "Farm Carts set to ".. tostring(Value) .. "!",
+         Duration = 2.5,
+         Image = "rewind",
+      })
+      _G.FarmCarts = Value
+   end,
+})
+
+local CollectTokensToggle = FarmTab:CreateToggle({
+   Name = "Collect Tokens",
+   CurrentValue = false,
+   Flag = "CollectTokensToggle",
+   Callback = function(Value)
+      Rayfield:Notify({
+         Title = "Information",
+         Content = "Collect Tokens set to ".. tostring(Value) .. "!",
+         Duration = 2.5,
+         Image = "rewind",
+      })
+      _G.CollectTokens = Value
+   end,
+})
+
+local CollectPresentsToggle = FarmTab:CreateToggle({
+   Name = "Collect Presents",
+   CurrentValue = false,
+   Flag = "CollectPresentsToggle",
+   Callback = function(Value)
+      Rayfield:Notify({
+         Title = "Information",
+         Content = "Collect Presents set to ".. tostring(Value) .. "!",
+         Duration = 2.5,
+         Image = "rewind",
+      })
+      _G.CollectPresents = Value
+   end,
+})
+
+local FarmMarksToggle = FarmTab:CreateToggle({
+   Name = "Farm Marks",
+   CurrentValue = false,
+   Flag = "FarmMarksToggle",
+   Callback = function(Value)
+      Rayfield:Notify({
+         Title = "Information",
+         Content = "Farm Marks set to ".. tostring(Value) .. "!",
+         Duration = 2.5,
+         Image = "rewind",
+      })
+      _G.FarmMarks = Value
+   end,
+})
+
+local FarmFiresToggle = FarmTab:CreateToggle({
+   Name = "Farm Fires",
+   CurrentValue = false,
+   Flag = "FarmFiresToggle",
+   Callback = function(Value)
+      Rayfield:Notify({
+         Title = "Information",
+         Content = "Farm Fires set to ".. tostring(Value) .. "!",
+         Duration = 2.5,
+         Image = "rewind",
+      })
+      _G.FarmFires = Value
+   end,
+})
+
+local FarmIcesToggle = FarmTab:CreateToggle({
+   Name = "Farm Ices",
+   CurrentValue = false,
+   Flag = "FarmIcesToggle",
+   Callback = function(Value)
+      Rayfield:Notify({
+         Title = "Information",
+         Content = "Farm Ices set to ".. tostring(Value) .. "!",
+         Duration = 2.5,
+         Image = "rewind",
+      })
+      _G.FarmIces = Value
+     
+   end,
+})
 -- \\ Farm Tab // --
 
 
@@ -337,19 +481,20 @@ Humanoid:GetPropertyChangedSignal("WalkSpeed"):Connect(function()
 end)
 -- \\ Functions // --
 
-local PlayerTab = Window:CreateTab("Player Tab", "rewind")
+local MiscTab = Window:CreateTab("Misc Tab", "rewind")
 
-local WalkspeedSlider = PlayerTab:CreateSlider({
-   Name = "Walkspeed Slider",
+local PlayerLabel = MiscTab:CreateLabel("Player Section:")
+local WalkSpeedSlider = MiscTab:CreateSlider({
+   Name = "Walk Speed:",
    Range = {0, 100},
    Increment = 1,
-   Suffix = "Walkspeed",
+   Suffix = "Walk Speed",
    CurrentValue = 25,
-   Flag = "WalkspeedSlider",
+   Flag = "WalkSpeedSlider",
    Callback = function(Value)
       Rayfield:Notify({
          Title = "Information",
-         Content = "player set walkspeed to: ".. tostring(Value) .."!",
+         Content = "player set walk speed to: ".. tostring(Value) .."!",
          Duration = 2.5,
          Image = "rewind",
       })
@@ -357,6 +502,26 @@ local WalkspeedSlider = PlayerTab:CreateSlider({
       HumanoidRootPart.Parent.Humanoid.WalkSpeed = Value
    end,
 })
+
+local Divider = MiscTab:CreateDivider()
+local GuisLabel = MiscTab:CreateLabel("Guis Section:")
+
+-- Craft
+
+local Divider = MiscTab:CreateDivider()
+local GuisLabel = MiscTab:CreateLabel("Performence Section:")
+
+local LightAmbientColorPicker = MiscTab:CreateColorPicker({
+   Name = "Light Ambient Color:",
+   Color = Color3.fromRGB(66,66,66),
+   Flag = "Light Ambient Color", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   	  print(game.Lighting.Ambient)
+      game.Lighting.Ambient = Value
+   end
+})
+--LIGHTING
+
 
 
 -- \\ Player Tab // --
