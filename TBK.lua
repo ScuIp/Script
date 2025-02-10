@@ -516,7 +516,6 @@ local LightAmbientColorPicker = MiscTab:CreateColorPicker({
    Color = Color3.fromRGB(66,66,66),
    Flag = "Light Ambient Color", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
    Callback = function(Value)
-   	  print(game.Lighting.Ambient)
       game.Lighting.Ambient = Value
    end
 })
