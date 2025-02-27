@@ -157,21 +157,20 @@ while true do
     if game.Players.LocalPlayer.PlayerGui.MainGUI:FindFirstChild("TeleportEffect") then
         game.Players.LocalPlayer.PlayerGui.MainGUI.TeleportEffect:Destroy()
     end
-task.spawn(function()
-   	 local Lasers = {
-       	 workspace.Ignore.WorldObjects["Lasers Club"],
-       	 workspace.Ignore.WorldObjects:GetChildren()[18],
-       	 workspace.Ignore.WorldObjects:GetChildren()[17],
-      	workspace.Ignore.WorldObjects:GetChildren()[19],
-      	  workspace.Casino.CasinoDoor.SpinLaser1,
-      	  workspace.Casino.CasinoDoor.SpinLaser2,
-     	   workspace.Casino.CasinoDoor.SpinLaser3,
-	    }
-    	
-   	 for i, v in ipairs(Lasers) do
-    	    v:Destroy()
-    	end
-    end)
+
+    local Lasers = {
+        workspace.Ignore.WorldObjects["Lasers Club"],
+        workspace.Ignore.WorldObjects:GetChildren()[18],
+        workspace.Ignore.WorldObjects:GetChildren()[17],
+        workspace.Ignore.WorldObjects:GetChildren()[19],
+        workspace.Casino.CasinoDoor.SpinLaser1,
+        workspace.Casino.CasinoDoor.SpinLaser2,
+        workspace.Casino.CasinoDoor.SpinLaser3,
+    }
+    
+    for i, v in ipairs(Lasers) do
+        v:Destroy()
+    end
 
     local function TweenTP(x, y, z)
         local player = game.Players.LocalPlayer
@@ -260,25 +259,34 @@ task.spawn(function()
 
         local function casino()
             if game:GetService("ReplicatedStorage").HeistStatus.Casino.Locked.Value == false then
+                local VirtualInputManager = game:GetService("VirtualInputManager")
 
                 TweenTP(1644, 41, 448)
                 task.wait(5)
-                workspace.ObjectSelection.Lever1.Lever.Lever.Event:FireServer()
+                VirtualInputManager:SendKeyEvent(true, "E", false, game)
+                task.wait(0.1)
+                VirtualInputManager:SendKeyEvent(false, "E", false, game)
                 task.wait(0.5)
         
                 TweenTP(1758, 41, 498)
                 task.wait(5)
-                workspace.ObjectSelection.Lever2.Lever.Lever.Event:FireServer()
+                VirtualInputManager:SendKeyEvent(true, "E", false, game)
+                task.wait(0.1)
+                VirtualInputManager:SendKeyEvent(false, "E", false, game)
                 task.wait(0.5)
         
                 TweenTP(1620, 41, 480)
                 task.wait(5)
-                workspace.ObjectSelection.Lever3.Lever.Lever.Event:FireServer()
+                VirtualInputManager:SendKeyEvent(true, "E", false, game)
+                task.wait(0.1)
+                VirtualInputManager:SendKeyEvent(false, "E", false, game)
                 task.wait(0.5)
         
                 TweenTP(1744, 41, 447)
                 task.wait(5)
-                workspace.ObjectSelection.Lever4.Lever.Lever.Event:FireServer()
+                VirtualInputManager:SendKeyEvent(true, "E", false, game)
+                task.wait(0.1)
+                VirtualInputManager:SendKeyEvent(false, "E", false, game)
                 task.wait(0.5)
 
 
