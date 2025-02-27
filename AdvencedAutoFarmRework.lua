@@ -169,10 +169,10 @@ while true do
         local targetCFrame = CFrame.new(x, y, z)
         
         -- Create the tween for the HumanoidRootPart
-        local TweenTP = TweenService:Create(HumanoidRootPart, TPInfo, {CFrame = targetCFrame})
+        local TweenTPAnim = TweenService:Create(HumanoidRootPart, TPInfo, {CFrame = targetCFrame})
         
         -- Play the tween
-        TweenTP:Play()
+        TweenTPAnim:Play()
         
         
     end
