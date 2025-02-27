@@ -157,13 +157,28 @@ while true do
     if game.Players.LocalPlayer.PlayerGui.MainGUI:FindFirstChild("TeleportEffect") then
         game.Players.LocalPlayer.PlayerGui.MainGUI.TeleportEffect:Destroy()
     end
+
+    local Lasers = {
+        workspace.Ignore.WorldObjects["Lasers Club"],
+        workspace.Ignore.WorldObjects:GetChildren()[18],
+        workspace.Ignore.WorldObjects:GetChildren()[17],
+        workspace.Ignore.WorldObjects:GetChildren()[19],
+        workspace.Casino.CasinoDoor.SpinLaser1,
+        workspace.Casino.CasinoDoor.SpinLaser2,
+        workspace.Casino.CasinoDoor.SpinLaser3,
+    }
+    
+    for i, v in ipairs(Lasers) do
+        v:Destroy()
+    end
+
     local function TweenTP(x, y, z)
         local player = game.Players.LocalPlayer
         local HumanoidRootPart = player.Character:WaitForChild("HumanoidRootPart")
         
         local TweenService = game:GetService("TweenService")
         
-        local TPInfo = TweenInfo.new(2.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
+        local TPInfo = TweenInfo.new(3.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
         
         -- Use CFrame instead of Position for tweening
         local targetCFrame = CFrame.new(x, y, z)
@@ -221,108 +236,92 @@ while true do
         end)
     end
 
-    TweenTP(-82, 86, 807)
-    task.wait(0.5)
-    for i, v in pairs(workspace.JewelryStore.JewelryBoxes:GetChildren()) do
-        task.spawn(function()
-            for i = 1, 5 do
-                workspace.JewelryStore.JewelryBoxes.JewelryManager.Event:FireServer(v)
-            end
-        end)
-    end
-    task.wait(2)
-    TweenTP(2115, 26, 420)
-    task.wait(4)
+
 
     local robHeists = getgenv().HeistsRobbing
     if robHeists == true then
         local colissionDb = false
+        
+        local function JewelryStore()
+            TweenTP(-82, 86, 807)
+            task.wait(5)
+            for i, v in pairs(workspace.JewelryStore.JewelryBoxes:GetChildren()) do
+                task.spawn(function()
+                    for i = 1, 5 do
+                        workspace.JewelryStore.JewelryBoxes.JewelryManager.Event:FireServer(v)
+                    end
+                end)
+            end
+            task.wait(2)
+            TweenTP(2115, 26, 420)
+            task.wait(5)
+        end
+
         local function casino()
-            if game:GetService("ReplicatedStorage").HeistStatus.Casino.Robbing.Value == true then
-                TweenTP(0, 0, 0)
-                TweenTP(1500, 0, 300)
-                task.wait(1.5)
-                TweenTP(1700, 30, 490)
-                task.wait(22)
+            if game:GetService("ReplicatedStorage").HeistStatus.Casino.Locked.Value == false then
+
+                TweenTP(1644, 41, 448)
+                task.wait(5)
+                workspace.ObjectSelection.Lever1.Lever.Lever.Event:FireServer()
+                task.wait(0.5)
+        
+                TweenTP(1758, 41, 498)
+                task.wait(5)
+                workspace.ObjectSelection.Lever2.Lever.Lever.Event:FireServer()
+                task.wait(0.5)
+        
+                TweenTP(1620, 41, 480)
+                task.wait(5)
+                workspace.ObjectSelection.Lever3.Lever.Lever.Event:FireServer()
+                task.wait(0.5)
+        
+                TweenTP(1744, 41, 447)
+                task.wait(5)
+                workspace.ObjectSelection.Lever4.Lever.Lever.Event:FireServer()
+                task.wait(0.5)
+
+
+                TweenTP(1700, 41, 515)
+                task.wait(27)
                 TweenTP(2115, 26, 420)
-                task.wait()
+                task.wait(5)
             else
                 return
             end
         end
-        local runService = game:GetService("RunService")
-
-        local character = game.Players.LocalPlayer.Character
-        local collisionParts = {}
-
-        for _, part in ipairs(character:GetDescendants()) do
-            if part:IsA("BasePart") then
-                table.insert(collisionParts, part)
-            end
-        end
         local function club()
             if game:GetService("ReplicatedStorage").HeistStatus.Club.Locked.Value == false then
-                for _, part in ipairs(collisionParts) do
-                    local real
-                    task.spawn(function()
-                        repeat
-                            task.wait()
-                        until colissionDb == true
-                        real:Disconnect()
-                    end)
-                    real = runService.Stepped:Connect(function()
-                        part.CanCollide = false
-                    end)
-                end
-                TweenTP(0, 0, 0)
-                TweenTP(1365, 45, -152) -- Открыть клуб
-                task.wait(0.1)
+                TweenTP(1365, 45, -152)
+				task.wait(5)
                 TweenTP(1327, 145.5, -128.5)
-                colissionDb = true
-                local VirtualInputManager = game:GetService("VirtualInputManager")
-                for i = 1, 15 do
-                    VirtualInputManager:SendKeyEvent(true, "D", false, game)
-                    task.wait(0.1)
-                    VirtualInputManager:SendKeyEvent(false, "D", false, game)
-                    VirtualInputManager:SendKeyEvent(true, "S", false, game)
-                    task.wait(0.1)
-                    VirtualInputManager:SendKeyEvent(false, "S", false, game)
-                end
-                task.wait(21)
+                task.wait(27)
                 TweenTP(2115, 26, 420)
-                task.wait()
+                task.wait(5)
             else
                 return
             end
         end
         local function bank()
-            if game:GetService("ReplicatedStorage").HeistStatus.Bank.Robbing.Value == true then
-                for _, part in ipairs(collisionParts) do
-                    local real
-                    task.spawn(function()
-                        repeat
-                            task.wait()
-                        until colissionDb == true
-                        real:Disconnect()
-                    end)
-                    real = runService.Stepped:Connect(function()
-                        part.CanCollide = false
-                    end)
-                end
-                TweenTP(0, 0, 0)
-                task.wait(0.1)
+            if game:GetService("ReplicatedStorage").HeistStatus.Bank.Locked.Value == false then
                 TweenTP(673, 82, 561)
-                colissionDb = true
-                task.wait(22)
+                task.wait(5)
+                TweenTP(681, 82, 581)
+                task.wait(25)
                 TweenTP(2115, 26, 420)
+                task.wait(5)
             end
         end
+        local rJewerlyStore = getgenv().robJewerlyStore
+        print(rJewerlyStore)
         local rCasino = getgenv().robCasino
         print(rCasino)
         local rClub = getgenv().robClub
         print(rClub)
         local rBank = getgenv().robBank
         print(rBank)
+        if rCasino == true then
+            JewelryStore()
+        end
         if rCasino == true then
             casino()
         end
