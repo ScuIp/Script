@@ -157,20 +157,21 @@ while true do
     if game.Players.LocalPlayer.PlayerGui.MainGUI:FindFirstChild("TeleportEffect") then
         game.Players.LocalPlayer.PlayerGui.MainGUI.TeleportEffect:Destroy()
     end
-
-    local Lasers = {
-        workspace.Ignore.WorldObjects["Lasers Club"],
-        workspace.Ignore.WorldObjects:GetChildren()[18],
-        workspace.Ignore.WorldObjects:GetChildren()[17],
-        workspace.Ignore.WorldObjects:GetChildren()[19],
-        workspace.Casino.CasinoDoor.SpinLaser1,
-        workspace.Casino.CasinoDoor.SpinLaser2,
-        workspace.Casino.CasinoDoor.SpinLaser3,
-    }
-    
-    for i, v in ipairs(Lasers) do
-        v:Destroy()
-    end
+task.spawn(function()
+   	 local Lasers = {
+       	 workspace.Ignore.WorldObjects["Lasers Club"],
+       	 workspace.Ignore.WorldObjects:GetChildren()[18],
+       	 workspace.Ignore.WorldObjects:GetChildren()[17],
+      	workspace.Ignore.WorldObjects:GetChildren()[19],
+      	  workspace.Casino.CasinoDoor.SpinLaser1,
+      	  workspace.Casino.CasinoDoor.SpinLaser2,
+     	   workspace.Casino.CasinoDoor.SpinLaser3,
+	    }
+    	
+   	 for i, v in ipairs(Lasers) do
+    	    v:Destroy()
+    	end
+    end)
 
     local function TweenTP(x, y, z)
         local player = game.Players.LocalPlayer
