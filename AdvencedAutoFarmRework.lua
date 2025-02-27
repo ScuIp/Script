@@ -262,33 +262,35 @@ while true do
                 local VirtualInputManager = game:GetService("VirtualInputManager")
 
                 TweenTP(1644, 41, 448)
-                task.wait(5)
-                VirtualInputManager:SendKeyEvent(true, "E", false, game)
-                task.wait(0.1)
-                VirtualInputManager:SendKeyEvent(false, "E", false, game)
-                task.wait(0.5)
-        
-                TweenTP(1758, 41, 498)
-                task.wait(5)
-                VirtualInputManager:SendKeyEvent(true, "E", false, game)
-                task.wait(0.1)
-                VirtualInputManager:SendKeyEvent(false, "E", false, game)
-                task.wait(0.5)
-        
-                TweenTP(1620, 41, 480)
-                task.wait(5)
-                VirtualInputManager:SendKeyEvent(true, "E", false, game)
-                task.wait(0.1)
-                VirtualInputManager:SendKeyEvent(false, "E", false, game)
-                task.wait(0.5)
-        
-                TweenTP(1744, 41, 447)
-                task.wait(5)
-                VirtualInputManager:SendKeyEvent(true, "E", false, game)
-                task.wait(0.1)
-                VirtualInputManager:SendKeyEvent(false, "E", false, game)
-                task.wait(0.5)
 
+                task.wait(5)
+                if game:GetService("ReplicatedStorage").HeistStatus.Casino.Robbing.Value == false then
+                    VirtualInputManager:SendKeyEvent(true, "E", false, game)
+                    task.wait(0.1)
+                    VirtualInputManager:SendKeyEvent(false, "E", false, game)
+                    task.wait(0.5)
+                    
+                    TweenTP(1758, 41, 498)
+                    task.wait(5)
+                    VirtualInputManager:SendKeyEvent(true, "E", false, game)
+                    task.wait(0.1)
+                    VirtualInputManager:SendKeyEvent(false, "E", false, game)
+                    task.wait(0.5)
+                    
+                    TweenTP(1620, 41, 480)
+                    task.wait(5)
+                    VirtualInputManager:SendKeyEvent(true, "E", false, game)
+                    task.wait(0.1)
+                    VirtualInputManager:SendKeyEvent(false, "E", false, game)
+                    task.wait(0.5)
+                    
+                    TweenTP(1744, 41, 447)
+                    task.wait(5)
+                    VirtualInputManager:SendKeyEvent(true, "E", false, game)
+                    task.wait(0.1)
+                    VirtualInputManager:SendKeyEvent(false, "E", false, game)
+                    task.wait(0.5)
+                end
 
                 TweenTP(1700, 41, 515)
                 task.wait(27)
@@ -320,6 +322,20 @@ while true do
                 task.wait(5)
             end
         end
+        local function pyramid()
+            if game:GetService("ReplicatedStorage").HeistStatus.Pyramid.Locked.Value == false then
+                TweenTP(-1048, 18, -480)
+                task.wait(8)
+                TweenTP(1227, 51168, 406)
+                task.wait(5)
+                TweenTP(975, 51078, 561)
+                task.wait(22)
+                TweenTP(1231, 51051, 381)
+                task.wait(5)
+                TweenTP(2115, 26, 420)
+                task.wait(5)
+            end
+        end
         local rJewerlyStore = getgenv().robJewerlyStore
         print(rJewerlyStore)
         local rCasino = getgenv().robCasino
@@ -328,6 +344,8 @@ while true do
         print(rClub)
         local rBank = getgenv().robBank
         print(rBank)
+        local rPyramid = getgenv().robPyramid
+        print(rPyramid)
         if rCasino == true then
             JewelryStore()
         end
@@ -339,6 +357,9 @@ while true do
         end
         if rBank == true then
             bank()
+        end
+        if rPyramid == true then
+            pyramid()
         end
     end
     robMiniRobberies()
