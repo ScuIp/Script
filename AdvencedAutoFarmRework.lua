@@ -221,7 +221,7 @@ while true do
         end)
     end
 
-    tweentp(-82, 86, 807)
+    TweenTP(-82, 86, 807)
     task.wait(0.5)
     for i, v in pairs(workspace.JewelryStore.JewelryBoxes:GetChildren()) do
         task.spawn(function()
@@ -231,7 +231,7 @@ while true do
         end)
     end
     task.wait(2)
-    tweentp(2115, 26, 420)
+    TweenTP(2115, 26, 420)
     task.wait(4)
 
     local robHeists = getgenv().HeistsRobbing
@@ -239,12 +239,12 @@ while true do
         local colissionDb = false
         local function casino()
             if game:GetService("ReplicatedStorage").HeistStatus.Casino.Robbing.Value == true then
-                tweentp(0, 0, 0)
-                tweenTp(1500, 0, 300)
+                TweenTP(0, 0, 0)
+                TweenTP(1500, 0, 300)
                 task.wait(1.5)
-                tweenTp(1700, 30, 490)
+                TweenTP(1700, 30, 490)
                 task.wait(22)
-                tweentp(2115, 26, 420)
+                TweenTP(2115, 26, 420)
                 task.wait()
             else
                 return
@@ -274,10 +274,10 @@ while true do
                         part.CanCollide = false
                     end)
                 end
-                tweentp(0, 0, 0)
-                tweentp(1365, 45, -152) -- Открыть клуб
+                TweenTP(0, 0, 0)
+                TweenTP(1365, 45, -152) -- Открыть клуб
                 task.wait(0.1)
-                tweenTp(1327, 145.5, -128.5)
+                TweenTP(1327, 145.5, -128.5)
                 colissionDb = true
                 local VirtualInputManager = game:GetService("VirtualInputManager")
                 for i = 1, 15 do
@@ -289,7 +289,7 @@ while true do
                     VirtualInputManager:SendKeyEvent(false, "S", false, game)
                 end
                 task.wait(21)
-                tweentp(2115, 26, 420)
+                TweenTP(2115, 26, 420)
                 task.wait()
             else
                 return
@@ -309,12 +309,12 @@ while true do
                         part.CanCollide = false
                     end)
                 end
-                tweentp(0, 0, 0)
+                TweenTP(0, 0, 0)
                 task.wait(0.1)
-                tweenTp(673, 82, 561)
+                TweenTP(673, 82, 561)
                 colissionDb = true
                 task.wait(22)
-                tweentp(2115, 26, 420)
+                TweenTP(2115, 26, 420)
             end
         end
         local rCasino = getgenv().robCasino
