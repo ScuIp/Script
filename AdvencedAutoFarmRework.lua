@@ -1,3 +1,13 @@
+
+getgenv().serverHopType = "RandomServer" -- serverhops "MostEmptyServer" or "RandomServer" (DO NOT REMOVE "")
+
+getgenv().HeistsRobbing = true -- change true to false if you dont want to rob anything. only mini robberies autofarm
+getgenv().robJewerlyStore = true
+getgenv().robCasino = true
+getgenv().robClub = true
+getgenv().robBank = true
+getgenv().robPyramid = true
+
 -- by qhav on discord
 while true do
     repeat wait() until game:IsLoaded()
@@ -158,38 +168,43 @@ while true do
         game.Players.LocalPlayer.PlayerGui.MainGUI.TeleportEffect:Destroy()
     end
 
-    local Lasers = {
-        workspace.Ignore.WorldObjects["Lasers Club"],
-        workspace.Ignore.WorldObjects:GetChildren()[18],
-        workspace.Ignore.WorldObjects:GetChildren()[17],
-        workspace.Ignore.WorldObjects:GetChildren()[19],
-        workspace.Casino.CasinoDoor.SpinLaser1,
-        workspace.Casino.CasinoDoor.SpinLaser2,
-        workspace.Casino.CasinoDoor.SpinLaser3,
-    }
-    
-    for i, v in ipairs(Lasers) do
-        v:Destroy()
+
+
+    --Destroy Elements
+    for i, v in pairs(workspace:GetDescendants()) do
+        if v.Name:find("Laser") or v.Name:find("DeathLights") or v.Name:find("Table") or v.Name:find("City") then
+        	v:Destroy()
+		end
     end
 
+    -- NoClipPlayer
+    game:GetService("RunService").Stepped:Connect(function()
+        for _, part in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
+    end)
+
     local function TweenTP(x, y, z)
-        local player = game.Players.LocalPlayer
-        local HumanoidRootPart = player.Character:WaitForChild("HumanoidRootPart")
-        
+        local HumanoidRootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
+    
         local TweenService = game:GetService("TweenService")
-        
-        local TPInfo = TweenInfo.new(3.25, Enum.EasingStyle.Linear, Enum.EasingDirection.In)
-        
-        -- Use CFrame instead of Position for tweening
-        local targetCFrame = CFrame.new(x, y, z)
-        
-        -- Create the tween for the HumanoidRootPart
-        local TweenTPAnim = TweenService:Create(HumanoidRootPart, TPInfo, {CFrame = targetCFrame})
-        
-        -- Play the tween
+    
+        local targetPosition = Vector3.new(x, y, z)
+        local currentPosition = HumanoidRootPart.Position
+        local distance = (targetPosition - currentPosition).Magnitude  -- Calcul de la distance
+
+    
+		local duration = math.sqrt(distance) / 8
+
+        local TPInfo = TweenInfo.new(duration, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut)
+    
+        -- Création et exécution du tween
+        local TweenTPAnim = TweenService:Create(HumanoidRootPart, TPInfo, {CFrame = CFrame.new(targetPosition)})
         TweenTPAnim:Play()
-        
-        
+		TweenTPAnim.Completed:Wait()  -- Attendre que le déplacement soit terminé
+        task.wait(0.5)
     end
 
     local MiniRobberies = {
@@ -244,7 +259,6 @@ while true do
         
         local function JewelryStore()
             TweenTP(-82, 86, 807)
-            task.wait(5)
             for i, v in pairs(workspace.JewelryStore.JewelryBoxes:GetChildren()) do
                 task.spawn(function()
                     for i = 1, 5 do
@@ -253,39 +267,39 @@ while true do
                 end)
             end
             task.wait(2)
-            TweenTP(2115, 26, 420)
-            task.wait(5)
         end
 
         local function casino()
             if game:GetService("ReplicatedStorage").HeistStatus.Casino.Locked.Value == false then
                 local VirtualInputManager = game:GetService("VirtualInputManager")
 
-                TweenTP(1644, 41, 448)
-
-                task.wait(5)
                 if game:GetService("ReplicatedStorage").HeistStatus.Casino.Robbing.Value == false then
+                    
+                    if workspace.ObjectSelection.HackComputer:FindFirstChild("HackComputer") then
+                        TweenTP(1697, 38, 741)
+                        workspace.ObjectSelection.HackComputer.HackComputer.HackComputer.Event:FireServer()
+                    end
+
+                    --Levers
+                    TweenTP(1644, 41, 448)
                     VirtualInputManager:SendKeyEvent(true, "E", false, game)
                     task.wait(0.1)
                     VirtualInputManager:SendKeyEvent(false, "E", false, game)
                     task.wait(0.5)
                     
                     TweenTP(1758, 41, 498)
-                    task.wait(5)
                     VirtualInputManager:SendKeyEvent(true, "E", false, game)
                     task.wait(0.1)
                     VirtualInputManager:SendKeyEvent(false, "E", false, game)
                     task.wait(0.5)
                     
                     TweenTP(1620, 41, 480)
-                    task.wait(5)
                     VirtualInputManager:SendKeyEvent(true, "E", false, game)
                     task.wait(0.1)
                     VirtualInputManager:SendKeyEvent(false, "E", false, game)
                     task.wait(0.5)
                     
                     TweenTP(1744, 41, 447)
-                    task.wait(5)
                     VirtualInputManager:SendKeyEvent(true, "E", false, game)
                     task.wait(0.1)
                     VirtualInputManager:SendKeyEvent(false, "E", false, game)
@@ -294,20 +308,17 @@ while true do
 
                 TweenTP(1700, 41, 515)
                 task.wait(27)
-                TweenTP(2115, 26, 420)
-                task.wait(5)
             else
                 return
             end
         end
         local function club()
             if game:GetService("ReplicatedStorage").HeistStatus.Club.Locked.Value == false then
-                TweenTP(1365, 45, -152)
-				task.wait(5)
+                if game:GetService("ReplicatedStorage").HeistStatus.Club.Robbing.Value == false then
+                    TweenTP(1365, 45, -152)
+                end
                 TweenTP(1327, 145.5, -128.5)
                 task.wait(27)
-                TweenTP(2115, 26, 420)
-                task.wait(5)
             else
                 return
             end
@@ -315,25 +326,19 @@ while true do
         local function bank()
             if game:GetService("ReplicatedStorage").HeistStatus.Bank.Locked.Value == false then
                 TweenTP(673, 82, 561)
-                task.wait(5)
                 TweenTP(681, 82, 581)
                 task.wait(25)
-                TweenTP(2115, 26, 420)
-                task.wait(5)
             end
         end
         local function pyramid()
             if game:GetService("ReplicatedStorage").HeistStatus.Pyramid.Locked.Value == false then
                 TweenTP(-1048, 18, -480)
-                task.wait(8)
+                task.wait(2)
                 TweenTP(1227, 51168, 406)
-                task.wait(5)
                 TweenTP(975, 51078, 561)
                 task.wait(22)
                 TweenTP(1231, 51051, 381)
-                task.wait(5)
-                TweenTP(2115, 26, 420)
-                task.wait(5)
+                task.wait(2)
             end
         end
         local rJewerlyStore = getgenv().robJewerlyStore
@@ -361,6 +366,7 @@ while true do
         if rPyramid == true then
             pyramid()
         end
+        TweenTP(2115, 26, 420)
     end
     robMiniRobberies()
     serverHops[serverhop]()
