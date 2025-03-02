@@ -1,14 +1,4 @@
-
-getgenv().serverHopType = "RandomServer" -- serverhops "MostEmptyServer" or "RandomServer" (DO NOT REMOVE "")
-
-getgenv().HeistsRobbing = true -- change true to false if you dont want to rob anything. only mini robberies autofarm
-getgenv().robJewerlyStore = true
-getgenv().robCasino = true
-getgenv().robClub = true
-getgenv().robBank = true
-getgenv().robPyramid = true
-
--- by qhav on discord
+-- by qhav on discord // Modified by Sculp
 while true do
     repeat wait() until game:IsLoaded()
     repeat wait() until game.Players.LocalPlayer.Character
