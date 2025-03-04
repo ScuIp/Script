@@ -176,6 +176,8 @@ while true do
         end
     end)
 
+	task.wait(2.2)
+	
     local function TweenTP(x, y, z)
         local HumanoidRootPart = game.Players.LocalPlayer.Character.HumanoidRootPart
     
